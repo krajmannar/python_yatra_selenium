@@ -1,19 +1,19 @@
+# pytest --browser chrome --url https://www.yatra.com/
 import time
 import pytest
+import softest
 
 from pages.yatra_launch_page import LaunchPage
 from utilities.utils import Utils
 
 
 @pytest.mark.usefixtures("setup")
-class TestsearchAndVerify():
+class TestsearchAndVerify(softest.TestCase):
 
     @pytest.fixture(autouse=True)
     def class_setup(self):
         self.lp = LaunchPage(self.driver)
         self.ut = Utils()
-        # yield
-        # self.driver.close()
 
     def test_search_flights_1_stop(self):
         search_flight_result = self.lp.searchFlights("New Delhi", "JFK", "25/03/2022")
