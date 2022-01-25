@@ -1,5 +1,6 @@
 import time
 import pytest
+from pages.search_flight_result_page import SearchFlightResults
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
@@ -72,4 +73,15 @@ class LaunchPage(BaseDriver):
     def clickSearchFlightButton(self):
         self.getSearchButton().click()
         time.sleep(8)
+
+    def searchFlights(self, departlocation, goingtolocation, departuredate):
+        self.enterDepartFromLocation(departlocation)
+        self.enterGoingToLocation(goingtolocation)
+        self.enterDepartureDate(departuredate)
+        self.clickSearchFlightButton()
+        search_flights_result = SearchFlightResults(self.driver)
+        return search_flights_result
+
+
+
 

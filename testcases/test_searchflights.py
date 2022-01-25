@@ -1,38 +1,32 @@
 import time
 import pytest
-# from builtins import len
-from pages.search_flight_result_page import SearchFlightResults
-from pages.yatra_launch_page import LaunchPage
 
-from selenium import webdriver
-from selenium.webdriver.common.by import By
+from pages.yatra_launch_page import LaunchPage
 from utilities.utils import Utils
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+
 
 @pytest.mark.usefixtures("setup")
 class TestsearchAndVerify():
-    def test_search_flights(self):
 
-        lp = LaunchPage(self.driver)
-        lp.enterDepartFromLocation("New Delhi")
+    @pytest.fixture(autouse=True)
+    def class_setup(self):
+        self.lp = LaunchPage(self.driver)
+        self.ut = Utils()
+        # yield
+        # self.driver.close()
 
-        lp.enterGoingToLocation("New York")
-
-        lp.enterDepartureDate("25/03/2022")
-        lp.clickSearchFlightButton()
-
-        sf = SearchFlightResults(self.driver)
-        sf.filter_flights()
-
-        allstops1 = sf.wait_for_presence_of_all_elements(By.XPATH, "//span[contains(text(), 'Non Stop') or contains(text(), '1 Stop')]")
-
-        ut = Utils()
-        ut.assertListItemText(allstops1, "1 Stop")
+    def test_search_flights_1_stop(self):
+        search_flight_result = self.lp.searchFlights("New Delhi", "JFK", "25/03/2022")
+        search_flight_result.filter_flights_by_stop("1 Stop")
+        allstops1 = search_flight_result.get_search_flight_results()
+        self.ut.assertListItemText(allstops1, "1 Stop")
 
 
+    def test_search_flights_2_stop(self):
+        search_flight_result = self.lp.searchFlights("New Delhi", "JFK", "12/03/2022")
+        search_flight_result.filter_flights_by_stop("2 Stop")
+        allstops1 = search_flight_result.get_search_flight_results()
+        self.ut.assertListItemText(allstops1, "2 Stop")
 
 
 
