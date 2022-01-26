@@ -1,4 +1,6 @@
-# pytest --browser chrome --url https://www.yatra.com/
+# Run this command from command prompt
+# pytest --browser chrome --url https://www.yatra.com/ --html=reports/report.html
+
 import time
 import pytest
 import softest
