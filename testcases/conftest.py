@@ -1,3 +1,5 @@
+import os
+
 import pytest
 from selenium import webdriver
 from selenium.webdriver.support.wait import WebDriverWait
@@ -36,6 +38,4 @@ def browser(request):
 @pytest.fixture(scope="class", autouse=True)
 def url(request):
     return request.config.getoption("--url")
-
-
 
