@@ -42,7 +42,9 @@ class LaunchPage(BaseDriver):
 
     def enterDepartFromLocation(self, departlocation):
         self.getDepartFromField().click()
+        time.sleep(2)
         self.getDepartFromField().send_keys(departlocation)
+        time.sleep(2)
         self.getDepartFromField().send_keys(Keys.ENTER)
 
     def enterGoingToLocation(self, goingtolocation):
